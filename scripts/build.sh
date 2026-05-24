@@ -3,7 +3,7 @@ set -euo pipefail
 
 PI_USER="${PI_USER:-puranlai}"
 PI_HOST="${PI_HOST:-192.168.31.120}"
-PI_DIR="${PI_DIR:-/home/pi/Code/duckbot}"
+PI_DIR="${PI_DIR:-/home/puranlai/Code/duckbot}"
 IMAGE="duckbot:latest"
 TARBALL="duckbot.tar"
 
