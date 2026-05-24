@@ -1,3 +1,9 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   duckbot:
     image: duckbot:latest
@@ -6,6 +12,7 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+    logging: *default-logging
 
   napcat:
     image: mlikiowa/napcat-docker:latest
@@ -18,3 +25,4 @@ services:
     depends_on:
       - duckbot
     restart: unless-stopped
+    logging: *default-logging

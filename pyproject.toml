@@ -17,4 +17,4 @@ duckbot = "duckbot.bot:main"
 
 [tool.nonebot]
 adapters = ["nonebot.adapters.onebot.v11"]
-plugins = ["duckbot.plugins.music_converter"]
+plugins = ["duckbot.plugins.music_converter", "duckbot.plugins.device_status"]
