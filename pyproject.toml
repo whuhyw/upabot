@@ -1,0 +1,20 @@
+[project]
+name = "duckbot"
+version = "0.1.0"
+description = "QQ Bot — Apple Music to NetEase Cloud Music converter"
+requires-python = ">=3.10"
+dependencies = [
+    "nonebot2>=2.4.0",
+    "nonebot-adapter-onebot>=2.4.0",
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.20.0",
+    "httpx>=0.28.0",
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+duckbot = "duckbot.bot:main"
+
+[tool.nonebot]
+adapters = ["nonebot.adapters.onebot.v11"]
+plugins = ["duckbot.plugins.music_converter"]

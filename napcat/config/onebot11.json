@@ -1,0 +1,19 @@
+{
+  "network": {
+    "websocketClients": [
+      {
+        "name": "duckbot",
+        "enable": true,
+        "url": "ws://duckbot:8080/onebot/v11/ws",
+        "messagePostFormat": "array",
+        "reportSelfMessage": false,
+        "token": "",
+        "heartBeatInterval": 5000,
+        "reconnectInterval": 5000
+      }
+    ]
+  },
+  "musicSignUrl": "",
+  "enableLocalFile2Url": false,
+  "parseMultMsg": false
+}
