@@ -1,5 +1,3 @@
-import asyncio
-import json
 import os
 import traceback
 
@@ -17,7 +15,7 @@ __plugin_meta__ = PluginMetadata(
 )
 
 DEVICE_STATUS_API_URL = os.getenv(
-    "DEVICE_STATUS_API_URL", "http://localhost:5000/DeviceStatus"
+    "DEVICE_STATUS_API_URL", "http://host.docker.internal:5000/DeviceStatus"
 )
 
 logger.info(f"[DeviceStatus] API URL: {DEVICE_STATUS_API_URL}")
@@ -49,9 +47,8 @@ async def handle_upa_status(bot: Bot, event: GroupMessageEvent | PrivateMessageE
         if len(parts) < 2 or parts[0] != "/upa" or parts[1] != "status":
             return
 
-        resp = await asyncio.to_thread(
-            httpx.get, DEVICE_STATUS_API_URL, timeout=10.0
-        )
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            resp = await client.get(DEVICE_STATUS_API_URL)
         resp.raise_for_status()
         data = resp.json()
 
@@ -60,4 +57,6 @@ async def handle_upa_status(bot: Bot, event: GroupMessageEvent | PrivateMessageE
         raise
     except Exception as e:
         logger.error(f"[DeviceStatus] Error: {e}\n{traceback.format_exc()}")
-        await status_matcher.finish(f"查询设备状态失败: {e}")
+        await status_matcher.finish(
+            f"查询设备状态失败 ({DEVICE_STATUS_API_URL}): {e}"
+        )

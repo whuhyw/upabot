@@ -3,7 +3,7 @@ set -euo pipefail
 
 PI_USER="${PI_USER:-puranlai}"
 PI_HOST="${PI_HOST:-192.168.31.120}"
-PI_DIR="${PI_DIR:-/home/puranlai/Code/duckbot}"
+PI_DIR="${PI_DIR:-/home/puranlai/Code/upabot}"
 IMAGE="duckbot:latest"
 TARBALL="duckbot.tar"
 
@@ -19,6 +19,6 @@ scp "${TARBALL}" "${PI_USER}@${PI_HOST}:${PI_DIR}/"
 rm -f "${TARBALL}"
 
 echo "==> 4/4 在树莓派上加载镜像并重启服务"
-ssh "${PI_USER}@${PI_HOST}" "cd ${PI_DIR} && docker load -i ${TARBALL} && docker compose up -d && rm -f ${TARBALL}"
+ssh "${PI_USER}@${PI_HOST}" "cd ${PI_DIR} && docker load -i ${TARBALL} && docker compose down && docker compose up -d && rm -f ${TARBALL}"
 
 echo "==> 完成"

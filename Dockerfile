@@ -8,4 +8,5 @@ RUN pip install --no-cache-dir $(python3 -c "import tomllib; t = tomllib.load(op
 COPY . .
 RUN pip install --no-cache-dir --no-deps .
 
+ENTRYPOINT ["python3", "scripts/entrypoint.py"]
 CMD ["duckbot"]

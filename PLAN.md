@@ -44,9 +44,7 @@ duckbot/
 │   ├── bot.py               # 启动入口
 │   └── plugins/
 │       └── music_converter/
-│           ├── __init__.py  # 插件定义 + Apple Music 链接匹配
-│           ├── apple.py     # iTunes Search API 元数据提取
-│           └── netease.py   # 网易云音乐搜索 API
+│           └── __init__.py  # 插件定义 + 调用 duckran.top API 转换
 └── docs/
     └── deploy.md            # 部署指南（NapCat 扫码流程）
 ```
