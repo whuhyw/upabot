@@ -9,10 +9,14 @@ services:
     image: duckbot:latest
     container_name: duckbot
     env_file: .env
+    environment:
+      - SQLALCHEMY_DATABASE_URL=sqlite+aiosqlite:////app/data/db.sqlite3
     ports:
       - "8080:8080"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data:/app/data
     restart: unless-stopped
     logging: *default-logging
     

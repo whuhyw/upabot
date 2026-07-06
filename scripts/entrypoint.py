@@ -31,4 +31,7 @@ def _ensure_host_docker_internal():
 
 if __name__ == "__main__":
     _ensure_host_docker_internal()
+
+    os.environ["ALEMBIC_STARTUP_CHECK"] = "false"
+
     os.execvp(sys.argv[1], sys.argv[1:])

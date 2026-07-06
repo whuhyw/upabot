@@ -189,35 +189,14 @@ async def handle_group_message(
         if not matched:
             return
 
-        try:
-            history = await bot.call_api(
-                "get_group_msg_history",
-                group_id=event.group_id,
-                count=10,
+        nodes = [
+            MessageSegment.node_custom(
+                user_id=event.sender.user_id,
+                nickname=event.sender.card or event.sender.nickname
+                or str(event.sender.user_id),
+                content=event.message,
             )
-        except Exception:
-            history = {"messages": []}
-
-        nodes = []
-        for msg in history.get("messages", []):
-            sender_id = msg.get("sender", {}).get("user_id", 0)
-            if sender_id == int(bot.self_id):
-                continue
-
-            nickname = (
-                msg.get("sender", {}).get("card")
-                or msg.get("sender", {}).get("nickname")
-                or str(sender_id)
-            )
-            content = msg.get("message", [])
-            if content:
-                nodes.append(
-                    MessageSegment.node_custom(
-                        user_id=sender_id,
-                        nickname=nickname,
-                        content=Message(content),
-                    )
-                )
+        ]
 
         notified = set()
         for kw in matched:
@@ -225,8 +204,8 @@ async def handle_group_message(
                 continue
             notified.add(kw.user_qq)
 
-            if int(event.get_user_id()) == kw.user_qq:
-                continue
+            # if int(event.get_user_id()) == kw.user_qq:
+            #     continue
 
             setting_result = await session.execute(
                 select(TabooSetting).where(TabooSetting.user_qq == kw.user_qq)
@@ -236,16 +215,10 @@ async def handle_group_message(
                 continue
 
             try:
-                if nodes:
-                    await bot.send_private_forward_msg(
-                        user_id=kw.user_qq,
-                        messages=nodes,
-                    )
-                else:
-                    await bot.send_private_msg(
-                        user_id=kw.user_qq,
-                        message=f"有人在群 {event.group_id} 中提到了「{kw.keyword}」",
-                    )
+                await bot.send_private_forward_msg(
+                    user_id=kw.user_qq,
+                    messages=nodes,
+                )
             except Exception as e:
                 logger.warning(f"[Taboo] Failed to notify {kw.user_qq}: {e}")
 
