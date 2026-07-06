@@ -9,7 +9,7 @@ from nonebot.exception import FinishedException
 from nonebot.plugin import PluginMetadata
 
 __plugin_meta__ = PluginMetadata(
-    name="MusicConverter",
+    name="Music Converter",
     description="将 Apple Music 链接转换为网易云音乐链接",
     usage="发送 Apple Music 链接即可自动转换",
 )
