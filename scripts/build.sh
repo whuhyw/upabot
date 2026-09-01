@@ -13,7 +13,8 @@ docker run --privileged --rm tonistiigi/binfmt --install all
 echo "==> 2/4 构建 linux/arm64 镜像: ${IMAGE}"
 docker buildx build --platform linux/arm64 -t "${IMAGE}" --load .
 
-echo "==> 3/4 导出镜像并传输到树莓派"
+echo "==> 3/4 同步配置文件和镜像到树莓派"
+scp docker-compose.yml scripts/entrypoint.py "${PI_USER}@${PI_HOST}:${PI_DIR}/"
 docker save "${IMAGE}" -o "${TARBALL}"
 scp "${TARBALL}" "${PI_USER}@${PI_HOST}:${PI_DIR}/"
 rm -f "${TARBALL}"
